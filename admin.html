@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Campus Tales</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1>Campus Tales Admin Panel</h1>
+            <p>Manage email subscriptions</p>
+        </div>
+
+        <!-- Login Form -->
+        <div id="loginSection" class="login-form">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="password">Password:</label>
+                    <input 
+                        type="password" 
+                        id="password" 
+                        required 
+                        placeholder="Enter admin password"
+                    >
+                </div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <div id="loginMessage" class="message"></div>
+        </div>
+
+        <!-- Admin Dashboard (hidden by default) -->
+        <div id="dashboardSection" style="display: none;">
+            <button id="logoutBtn" class="btn btn-logout">Logout</button>
+            
+            <!-- Stats -->
+            <div class="stats">
+                <div class="stat-card">
+                    <h3>Total Subscribers</h3>
+                    <div class="stat-value" id="totalCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Latest Subscriber</h3>
+                    <div class="stat-value" style="font-size: 1rem;" id="latestSubscriber">N/A</div>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="actions">
+                <button id="downloadBtn" class="btn btn-secondary">Download CSV</button>
+                <button id="refreshBtn" class="btn btn-secondary">Refresh</button>
+            </div>
+
+            <!-- Subscribers List -->
+            <div class="subscribers-list">
+                <h2>Subscribers</h2>
+                <div id="subscribersList"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js"></script>
+</body>
+</html>

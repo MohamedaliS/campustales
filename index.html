@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campus Tales - College Life Comic Strips</title>
+    <meta name="description" content="A minimalist black & white comic strip series celebrating college life. New episodes released monthly.">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Campus Tales</h1>
+            <p class="tagline">Celebrating College Life, One Comic at a Time</p>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <section class="hero">
+                <h2>Coming Soon</h2>
+                <p>New episodes released monthly. Subscribe to never miss an update!</p>
+            </section>
+
+            <section class="comics" id="comics">
+                <p class="empty-state">First comic strip coming soon...</p>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Campus Tales</h3>
+                    <p>A minimalist comic strip series about college life.</p>
+                </div>
+                
+                <div class="footer-section subscribe-section">
+                    <h3>Subscribe for Updates</h3>
+                    <p>Get notified when new episodes are released</p>
+                    <form id="subscribeForm" class="subscribe-form">
+                        <input 
+                            type="email" 
+                            id="emailInput" 
+                            placeholder="your.email@example.com" 
+                            required 
+                            aria-label="Email address"
+                        >
+                        <button type="submit">Subscribe</button>
+                    </form>
+                    <div id="subscribeMessage" class="message" role="alert" aria-live="polite"></div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2025 Campus Tales. All rights reserved.</p>
+                <a href="admin.html" class="admin-link">Admin</a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
