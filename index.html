@@ -87,13 +87,12 @@
             justify-content: center;
             flex-shrink: 0;
             overflow: hidden;
-            border-radius: 0.25rem;
         }
         
         .logo-icon img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
         }
 
         .logo-text {
@@ -237,7 +236,7 @@
             width: 100%;
             height: 100%;
             object-fit: contain;
-            padding: 0.25rem;
+            padding: 0;
         }
 
         .comic-caption {
@@ -767,18 +766,36 @@
             }
             
             .container {
-                max-height: 100vh;
-                overflow: hidden;
+                max-height: 100%;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            
+            main {
                 display: flex;
                 flex-direction: column;
             }
             
+            .comic-reader {
+                margin: 0.25rem 0;
+            }
+            
             .comic-strip-container {
                 aspect-ratio: 9/16;
-                max-height: calc(100vh - 220px);
+                max-height: 60vh;
+                width: 100%;
+            }
+            
+            .comic-strip {
+                object-fit: contain;
+                padding: 0;
             }
             
             .archive-section {
+                display: none;
+            }
+            
+            .about-section {
                 display: none;
             }
         }
@@ -1227,9 +1244,9 @@
             // Sample comic data
             const comics = [
                 {
-                    title: "The Monday Blues",
-                    date: "May 15, 2023",
-                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+1",
+                    title: "The Group Project Tales",
+                    date: "Oct 13, 2025",
+                    image: "images/presentation1.png",
                     caption: "\"I swear my coffee machine is plotting against me...\""
                 },
                 {
