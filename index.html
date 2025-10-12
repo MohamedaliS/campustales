@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Sketchbook | Alex Morgan</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Base styles - fully responsive */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        }
+
+        :root {
+            --background: #ffffff;
+            --foreground: #0a0a0a;
+            --muted: #71717a;
+            --muted-foreground: #71717a;
+            --border: #e4e4e7;
+            --input: #e4e4e7;
+            --primary: #000000;
+            --primary-foreground: #ffffff;
+            --secondary: #f4f4f5;
+            --secondary-foreground: #0a0a0a;
+            --accent: #000000;
+            --accent-foreground: #ffffff;
+            --destructive: #ef4444;
+            --destructive-foreground: #ffffff;
+            --card: #ffffff;
+            --card-foreground: #0a0a0a;
+            --popover: #ffffff;
+            --popover-foreground: #0a0a0a;
+            --radius: 0.5rem;
+        }
+
+        body {
+            background-color: var(--background);
+            color: var(--foreground);
+            line-height: 1.6;
+            font-size: 16px;
+            min-height: 100vh;
+        }
+
+        /* Remove fixed container for true responsiveness */
+        .container {
+            width: 100%;
+            padding: 0 1rem;
+            max-width: 100%;
+        }
+
+        /* Header */
+        header {
+            padding: 1rem 0;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--background);
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            min-width: 0;
+        }
+
+        .logo-icon {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: var(--radius);
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-foreground);
+            font-weight: 600;
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .logo-text {
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .author-name {
+            font-size: 0.75rem;
+            color: var(--muted-foreground);
+            font-weight: 400;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 1rem;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            min-width: 0;
+        }
+
+        nav a {
+            color: var(--muted-foreground);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            padding: 0.25rem 0;
+            position: relative;
+            transition: color 0.2s;
+            white-space: nowrap;
+        }
+
+        nav a:hover {
+            color: var(--foreground);
+        }
+
+        nav a.active {
+            color: var(--foreground);
+        }
+
+        nav a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1.5px;
+            background: var(--primary);
+        }
+
+        /* Hero */
+        .hero {
+            padding: 1.5rem 0 1rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.75rem;
+            line-height: 1.3;
+        }
+
+        .hero p {
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            font-weight: 400;
+            padding: 0 0.5rem;
+        }
+
+        /* Comic Reader - Fully Responsive */
+        .comic-reader {
+            position: relative;
+            margin: 1.5rem 0;
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            background: var(--card);
+        }
+
+        .comic-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .comic-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            flex: 1;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .comic-date {
+            color: var(--muted-foreground);
+            font-size: 0.75rem;
+            font-weight: 400;
+            white-space: nowrap;
+        }
+
+        .comic-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .comic-strip-container {
+            width: 100%;
+            aspect-ratio: 9/16;
+            background: #f9f9f9;
+            border-radius: 0.375rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+            margin-bottom: 1.25rem;
+            box-shadow: inset 0 0 0 1px var(--border);
+        }
+
+        .comic-strip {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: min(1.5rem, 5vw);
+        }
+
+        .comic-caption {
+            margin-top: 0.5rem;
+            color: var(--muted-foreground);
+            font-style: italic;
+            text-align: center;
+            font-size: 0.875rem;
+            line-height: 1.5;
+            max-width: 100%;
+            padding: 0 0.5rem;
+        }
+
+        /* Enhanced Navigation */
+        .comic-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            min-width: 0;
+            flex: 1;
+            justify-content: center;
+        }
+
+        .nav-btn:hover {
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border-color: var(--primary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .nav-btn:disabled:hover {
+            background: var(--secondary);
+            color: var(--secondary-foreground);
+            border-color: var(--border);
+        }
+
+        /* Progress Indicator */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+            margin: 0.75rem 0;
+            flex-wrap: wrap;
+        }
+
+        .progress-dot {
+            width: 0.5rem;
+            height: 0.5rem;
+            border-radius: 50%;
+            background: var(--border);
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--primary);
+            transform: scale(1.2);
+        }
+
+        /* Archive */
+        .archive-section {
+            margin: 2rem 0 3rem;
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+        }
+
+        .view-all {
+            color: var(--primary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            white-space: nowrap;
+        }
+
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .archive-item {
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            overflow: hidden;
+            transition: all 0.2s ease;
+            cursor: pointer;
+            background: var(--card);
+        }
+
+        .archive-item:hover, .archive-item:focus {
+            border-color: var(--primary);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transform: translateY(-2px);
+        }
+
+        .archive-thumb {
+            aspect-ratio: 9/16;
+            background: #f9f9f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .archive-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: min(1rem, 3vw);
+            transition: transform 0.2s ease;
+        }
+
+        .archive-item:hover .archive-thumb img {
+            transform: scale(1.02);
+        }
+
+        .archive-info {
+            padding: 0.75rem 0.5rem 0.5rem;
+        }
+
+        .archive-title {
+            font-size: 0.8125rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .archive-date {
+            color: var(--muted-foreground);
+            font-size: 0.6875rem;
+            font-weight: 400;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem 0 1.5rem;
+            border-top: 1px solid var(--border);
+            color: var(--muted-foreground);
+            font-size: 0.875rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon {
+            width: 2rem;
+            height: 2rem;
+            border-radius: var(--radius);
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-foreground);
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .footer-text {
+            max-width: 500px;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.875rem;
+            padding: 0 0.5rem;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .social-link {
+            width: 2.25rem;
+            height: 2.25rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--muted-foreground);
+            transition: all 0.2s ease;
+            font-size: 0.875rem;
+        }
+
+        .social-link:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0,0,0,0.02);
+        }
+
+        .copyright {
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            width: 100%;
+            font-size: 0.75rem;
+        }
+
+        /* Swipe hint for mobile */
+        .swipe-hint {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--muted-foreground);
+            font-size: 0.75rem;
+            margin: 0.5rem 0;
+            opacity: 0.7;
+        }
+
+        .swipe-hint i {
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 375px) {
+            .hero h1 {
+                font-size: 1.375rem;
+            }
+            
+            .comic-header {
+                padding: 1rem;
+            }
+            
+            .comic-content {
+                padding: 1rem;
+            }
+            
+            .comic-nav {
+                padding: 1rem;
+            }
+            
+            .nav-btn {
+                padding: 0.5rem;
+                font-size: 0.8125rem;
+            }
+            
+            .archive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            }
+        }
+
+        @media (max-width: 320px) {
+            .archive-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            nav ul {
+                gap: 0.5rem;
+            }
+            
+            nav a {
+                font-size: 0.8125rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="#" class="logo">
+                    <div class="logo-icon">AM</div>
+                    <div>
+                        <div class="logo-text">Sketchbook</div>
+                        <div class="author-name">by Alex Morgan</div>
+                    </div>
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="#" class="active">Home</a></li>
+                        <li><a href="#">Archive</a></li>
+                        <li><a href="#">About</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Daily comics about office life</h1>
+            <p>Follow Dave's adventures through coffee disasters, awkward meetings, and the occasional existential crisis.</p>
+        </div>
+    </section>
+
+    <!-- Comic Reader -->
+    <div class="container">
+        <div class="comic-reader">
+            <div class="comic-header">
+                <h2 class="comic-title">The Monday Blues</h2>
+                <div class="comic-date">May 15, 2023</div>
+            </div>
+            <div class="comic-content">
+                <div class="comic-strip-container">
+                    <img src="https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+1" alt="The Monday Blues" class="comic-strip">
+                </div>
+                <p class="comic-caption">"I swear my coffee machine is plotting against me..."</p>
+            </div>
+            <div class="comic-nav">
+                <button class="nav-btn" id="prevBtn" disabled>
+                    <i class="fas fa-arrow-left"></i> Prev
+                </button>
+                <button class="nav-btn" id="nextBtn">
+                    Next <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        
+        <!-- Swipe hint for mobile -->
+        <div class="swipe-hint">
+            <i class="fas fa-hand-point-up"></i>
+            <span>Swipe up to see next comic</span>
+        </div>
+        
+        <!-- Progress Indicators -->
+        <div class="progress-container" id="progressContainer">
+            <div class="progress-dot active"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+            <div class="progress-dot"></div>
+        </div>
+
+        <!-- Archive -->
+        <div class="archive-section">
+            <div class="section-header">
+                <h2 class="section-title">Recent Comics</h2>
+                <a href="#" class="view-all">View Archive <i class="fas fa-chevron-right"></i></a>
+            </div>
+            <div class="archive-grid">
+                <!-- Comic 1 -->
+                <div class="archive-item" data-index="0">
+                    <div class="archive-thumb">
+                        <img src="https://placehold.co/150x267/f8f8f8/0a0a0a?text=Comic+1" alt="The Monday Blues">
+                    </div>
+                    <div class="archive-info">
+                        <h3 class="archive-title">The Monday Blues</h3>
+                        <div class="archive-date">May 15, 2023</div>
+                    </div>
+                </div>
+                
+                <!-- Comic 2 -->
+                <div class="archive-item" data-index="1">
+                    <div class="archive-thumb">
+                        <img src="https://placehold.co/150x267/f8f8f8/0a0a0a?text=Comic+2" alt="Coffee Emergency">
+                    </div>
+                    <div class="archive-info">
+                        <h3 class="archive-title">Coffee Emergency</h3>
+                        <div class="archive-date">May 12, 2023</div>
+                    </div>
+                </div>
+                
+                <!-- Comic 3 -->
+                <div class="archive-item" data-index="2">
+                    <div class="archive-thumb">
+                        <img src="https://placehold.co/150x267/f8f8f8/0a0a0a?text=Comic+3" alt="Meeting Marathon">
+                    </div>
+                    <div class="archive-info">
+                        <h3 class="archive-title">Meeting Marathon</h3>
+                        <div class="archive-date">May 10, 2023</div>
+                    </div>
+                </div>
+                
+                <!-- Comic 4 -->
+                <div class="archive-item" data-index="3">
+                    <div class="archive-thumb">
+                        <img src="https://placehold.co/150x267/f8f8f8/0a0a0a?text=Comic+4" alt="Printer Problems">
+                    </div>
+                    <div class="archive-info">
+                        <h3 class="archive-title">Printer Problems</h3>
+                        <div class="archive-date">May 8, 2023</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">AM</div>
+                    <div>Sketchbook</div>
+                </div>
+                <p class="footer-text">A personal comic strip by Alex Morgan exploring the humor in everyday office life. New comics every Monday, Wednesday, and Friday.</p>
+                
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link" aria-label="Patreon"><i class="fab fa-patreon"></i></a>
+                    <a href="#" class="social-link" aria-label="Ko-fi"><i class="fab fa-ko-fi"></i></a>
+                </div>
+                
+                <div class="copyright">
+                    &copy; 2023 Alex Morgan. All rights reserved.
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced carousel functionality with better UX
+        document.addEventListener('DOMContentLoaded', () => {
+            const comicReader = document.querySelector('.comic-reader');
+            const comicTitle = document.querySelector('.comic-title');
+            const comicDate = document.querySelector('.comic-date');
+            const comicStrip = document.querySelector('.comic-strip');
+            const comicCaption = document.querySelector('.comic-caption');
+            const dots = document.querySelectorAll('.progress-dot');
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const archiveItems = document.querySelectorAll('.archive-item[data-index]');
+            
+            // Sample comic data
+            const comics = [
+                {
+                    title: "The Monday Blues",
+                    date: "May 15, 2023",
+                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+1",
+                    caption: "\"I swear my coffee machine is plotting against me...\""
+                },
+                {
+                    title: "Coffee Emergency",
+                    date: "May 12, 2023",
+                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+2",
+                    caption: "\"When you realize you're out of coffee beans...\""
+                },
+                {
+                    title: "Meeting Marathon",
+                    date: "May 10, 2023",
+                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+3",
+                    caption: "\"This meeting could have been an email.\""
+                },
+                {
+                    title: "Printer Problems",
+                    date: "May 8, 2023",
+                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+4",
+                    caption: "\"Why does it always happen when I'm in a hurry?\""
+                },
+                {
+                    title: "Lunch Break",
+                    date: "May 5, 2023",
+                    image: "https://placehold.co/300x533/f8f8f8/0a0a0a?text=Portrait+Comic+5",
+                    caption: "\"My lunch is judging me.\""
+                }
+            ];
+            
+            let currentIndex = 0;
+            
+            // Update comic display
+            function updateComic(index) {
+                if (index < 0 || index >= comics.length) return;
+                
+                const comic = comics[index];
+                comicTitle.textContent = comic.title;
+                comicDate.textContent = comic.date;
+                comicStrip.src = comic.image;
+                comicCaption.textContent = comic.caption;
+                
+                // Update progress dots
+                dots.forEach((dot, i) => {
+                    dot.classList.toggle('active', i === index);
+                });
+                
+                // Update button states
+                prevBtn.disabled = index === 0;
+                nextBtn.disabled = index === comics.length - 1;
+                
+                // Scroll to top of comic reader
+                comicReader.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            // Navigation functions
+            nextBtn.addEventListener('click', () => {
+                if (currentIndex < comics.length - 1) {
+                    currentIndex++;
+                    updateComic(currentIndex);
+                }
+            });
+            
+            prevBtn.addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateComic(currentIndex);
+                }
+            });
+            
+            // Archive item selection
+            archiveItems.forEach(item => {
+                item.addEventListener('click', () => {
+                    const index = parseInt(item.getAttribute('data-index'));
+                    if (!isNaN(index) && index >= 0 && index < comics.length) {
+                        currentIndex = index;
+                        updateComic(currentIndex);
+                    }
+                });
+            });
+            
+            // Touch swipe support for mobile
+            let touchStartY = 0;
+            let touchEndY = 0;
+            
+            comicReader.addEventListener('touchstart', (e) => {
+                touchStartY = e.changedTouches[0].screenY;
+            });
+            
+            comicReader.addEventListener('touchend', (e) => {
+                touchEndY = e.changedTouches[0].screenY;
+                handleSwipe();
+            });
+            
+            function handleSwipe() {
+                const swipeThreshold = 50;
+                const diff = touchStartY - touchEndY;
+                
+                if (Math.abs(diff) > swipeThreshold) {
+                    if (diff > 0 && currentIndex < comics.length - 1) {
+                        // Swipe up - next comic
+                        currentIndex++;
+                        updateComic(currentIndex);
+                    } else if (diff < 0 && currentIndex > 0) {
+                        // Swipe down - previous comic
+                        currentIndex--;
+                        updateComic(currentIndex);
+                    }
+                }
+            }
+            
+            // Initialize
+            updateComic(currentIndex);
+        });
+    </script>
+</body>
+</html>
