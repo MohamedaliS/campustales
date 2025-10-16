@@ -4,63 +4,685 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Campus Tales</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        :root {
+            --background: #ffffff;
+            --foreground: #0a0a0a;
+            --muted: #71717a;
+            --border: #e4e4e7;
+            --primary: #000000;
+            --primary-foreground: #ffffff;
+            --accent: #ef4444;
+            --card: #ffffff;
+            --radius: 0.5rem;
+        }
+
+        body {
+            background-color: #f9fafb;
+            color: var(--foreground);
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        /* Login Screen */
+        .login-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 1rem;
+        }
+
+        .login-box {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-logo {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--primary);
+        }
+
+        .login-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .login-subtitle {
+            color: var(--muted);
+            font-size: 0.875rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(0,0,0,0.05);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .btn:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--border);
+            color: var(--foreground);
+            margin-top: 0.5rem;
+        }
+
+        .btn-secondary:hover {
+            background: var(--muted);
+        }
+
+        .error-message {
+            background: #fef2f2;
+            color: #991b1b;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            border: 1px solid #fecaca;
+        }
+
+        .success-message {
+            background: #f0fdf4;
+            color: #166534;
+            padding: 0.75rem;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            margin-bottom: 1rem;
+            border: 1px solid #bbf7d0;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            padding: 2rem 0;
+        }
+
+        .dashboard-header {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-title {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-title h1 {
+            font-size: 1.75rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: var(--border);
+            color: var(--foreground);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 44px;
+        }
+
+        .logout-btn:hover {
+            background: var(--muted);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-card {
+            background: #f9fafb;
+            padding: 1.5rem;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+        }
+
+        .stat-label {
+            color: var(--muted);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+        }
+
+        .actions {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        .action-btn {
+            padding: 0.625rem 1.25rem;
+            background: var(--primary);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+            transform: translateY(-1px);
+        }
+
+        .action-btn.danger {
+            background: var(--accent);
+        }
+
+        .action-btn.danger:hover {
+            background: #dc2626;
+        }
+
+        .subscribers-section {
+            background: var(--card);
+            padding: 2rem;
+            border-radius: var(--radius);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .search-box {
+            flex: 1;
+            max-width: 300px;
+            padding: 0.625rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.875rem;
+        }
+
+        .subscribers-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .subscriber-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            transition: all 0.2s;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .subscriber-item:hover {
+            background: #f9fafb;
+            border-color: var(--primary);
+        }
+
+        .subscriber-email {
+            font-size: 0.875rem;
+            word-break: break-all;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .delete-btn {
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: var(--primary-foreground);
+            border: none;
+            border-radius: var(--radius);
+            font-size: 0.8125rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            min-height: 44px;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--muted);
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Responsive */
+        @media (max-width: 640px) {
+            body {
+                padding: 0.5rem;
+            }
+
+            .dashboard-header,
+            .subscribers-section {
+                padding: 1.5rem;
+            }
+
+            .dashboard-title h1 {
+                font-size: 1.5rem;
+            }
+
+            .stat-value {
+                font-size: 1.5rem;
+            }
+
+            .section-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                max-width: 100%;
+            }
+
+            .subscriber-item {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .delete-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .actions {
+                flex-direction: column;
+            }
+
+            .action-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 </head>
 <body>
-    <div class="admin-container">
-        <div class="admin-header">
-            <h1>Campus Tales Admin Panel</h1>
-            <p>Manage email subscriptions</p>
-        </div>
-
-        <!-- Login Form -->
-        <div id="loginSection" class="login-form">
-            <h2>Admin Login</h2>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-container">
+        <div class="login-box">
+            <div class="login-header">
+                <div class="login-logo">CT</div>
+                <h1 class="login-title">Campus Tales</h1>
+                <p class="login-subtitle">Admin Panel</p>
+            </div>
+            
+            <div id="loginError" class="error-message hidden"></div>
+            
             <form id="loginForm">
                 <div class="form-group">
-                    <label for="password">Password:</label>
+                    <label class="form-label" for="password">Password</label>
                     <input 
                         type="password" 
                         id="password" 
-                        required 
+                        class="form-input" 
                         placeholder="Enter admin password"
+                        required
+                        autocomplete="current-password"
                     >
                 </div>
                 <button type="submit" class="btn">Login</button>
             </form>
-            <div id="loginMessage" class="message"></div>
-        </div>
-
-        <!-- Admin Dashboard (hidden by default) -->
-        <div id="dashboardSection" style="display: none;">
-            <button id="logoutBtn" class="btn btn-logout">Logout</button>
             
-            <!-- Stats -->
-            <div class="stats">
-                <div class="stat-card">
-                    <h3>Total Subscribers</h3>
-                    <div class="stat-value" id="totalCount">0</div>
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--muted); font-size: 0.8125rem;">
+                Default password: <code style="background: #f3f4f6; padding: 0.25rem 0.5rem; border-radius: 0.25rem;">admin123</code>
+            </p>
+            
+            <a href="index.html" class="btn btn-secondary">Back to Home</a>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <div class="container">
+            <div class="dashboard-header">
+                <div class="dashboard-title">
+                    <h1><i class="fas fa-chart-line"></i> Dashboard</h1>
+                    <button id="logoutBtn" class="logout-btn">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </button>
                 </div>
-                <div class="stat-card">
-                    <h3>Latest Subscriber</h3>
-                    <div class="stat-value" style="font-size: 1rem;" id="latestSubscriber">N/A</div>
+                
+                <div class="stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Subscribers</div>
+                        <div class="stat-value" id="totalSubscribers">0</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Last Updated</div>
+                        <div class="stat-value" style="font-size: 1rem;" id="lastUpdated">-</div>
+                    </div>
+                </div>
+
+                <div class="actions">
+                    <button id="downloadBtn" class="action-btn">
+                        <i class="fas fa-download"></i> Download CSV
+                    </button>
+                    <button id="clearAllBtn" class="action-btn danger">
+                        <i class="fas fa-trash"></i> Clear All
+                    </button>
                 </div>
             </div>
 
-            <!-- Actions -->
-            <div class="actions">
-                <button id="downloadBtn" class="btn btn-secondary">Download CSV</button>
-                <button id="refreshBtn" class="btn btn-secondary">Refresh</button>
-            </div>
-
-            <!-- Subscribers List -->
-            <div class="subscribers-list">
-                <h2>Subscribers</h2>
-                <div id="subscribersList"></div>
+            <div class="subscribers-section">
+                <div class="section-header">
+                    <h2 class="section-title">Subscribers</h2>
+                    <input 
+                        type="text" 
+                        id="searchBox" 
+                        class="search-box" 
+                        placeholder="Search emails..."
+                    >
+                </div>
+                
+                <div id="subscribersList" class="subscribers-list">
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No subscribers yet</p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <script src="admin.js"></script>
+    <script>
+        // Admin Authentication System
+        const ADMIN_PASSWORD = localStorage.getItem('campusTalesAdminPassword') || 'admin123';
+        let isAuthenticated = sessionStorage.getItem('campusTalesAuth') === 'true';
+
+        // Elements
+        const loginScreen = document.getElementById('loginScreen');
+        const dashboard = document.getElementById('dashboard');
+        const loginForm = document.getElementById('loginForm');
+        const loginError = document.getElementById('loginError');
+        const logoutBtn = document.getElementById('logoutBtn');
+        const subscribersList = document.getElementById('subscribersList');
+        const totalSubscribersEl = document.getElementById('totalSubscribers');
+        const lastUpdatedEl = document.getElementById('lastUpdated');
+        const searchBox = document.getElementById('searchBox');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const clearAllBtn = document.getElementById('clearAllBtn');
+
+        // Initialize
+        if (isAuthenticated) {
+            showDashboard();
+        } else {
+            showLogin();
+        }
+
+        // Login Handler
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+
+            if (password === ADMIN_PASSWORD) {
+                sessionStorage.setItem('campusTalesAuth', 'true');
+                isAuthenticated = true;
+                showDashboard();
+            } else {
+                showError('Incorrect password. Please try again.');
+            }
+        });
+
+        // Logout Handler
+        logoutBtn.addEventListener('click', () => {
+            sessionStorage.removeItem('campusTalesAuth');
+            isAuthenticated = false;
+            showLogin();
+        });
+
+        // Show/Hide Screens
+        function showLogin() {
+            loginScreen.classList.remove('hidden');
+            dashboard.classList.add('hidden');
+            document.getElementById('password').value = '';
+            loginError.classList.add('hidden');
+        }
+
+        function showDashboard() {
+            loginScreen.classList.add('hidden');
+            dashboard.classList.remove('hidden');
+            loadSubscribers();
+            updateStats();
+        }
+
+        function showError(message) {
+            loginError.textContent = message;
+            loginError.classList.remove('hidden');
+        }
+
+        // Load Subscribers
+        function loadSubscribers(searchTerm = '') {
+            const subscribers = getSubscribers();
+            const filteredSubscribers = searchTerm 
+                ? subscribers.filter(email => email.toLowerCase().includes(searchTerm.toLowerCase()))
+                : subscribers;
+
+            if (filteredSubscribers.length === 0) {
+                subscribersList.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>${searchTerm ? 'No matching subscribers' : 'No subscribers yet'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            subscribersList.innerHTML = filteredSubscribers.map((email, index) => `
+                <div class="subscriber-item">
+                    <span class="subscriber-email">${email}</span>
+                    <button class="delete-btn" onclick="deleteSubscriber('${email}')">
+                        <i class="fas fa-trash"></i> Delete
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Get Subscribers
+        function getSubscribers() {
+            return JSON.parse(localStorage.getItem('campusTalesSubscribers') || '[]');
+        }
+
+        // Delete Subscriber
+        function deleteSubscriber(email) {
+            if (!confirm(`Are you sure you want to delete ${email}?`)) {
+                return;
+            }
+
+            let subscribers = getSubscribers();
+            subscribers = subscribers.filter(e => e !== email);
+            localStorage.setItem('campusTalesSubscribers', JSON.stringify(subscribers));
+            
+            loadSubscribers(searchBox.value);
+            updateStats();
+        }
+
+        // Clear All Subscribers
+        clearAllBtn.addEventListener('click', () => {
+            const count = getSubscribers().length;
+            if (count === 0) {
+                alert('No subscribers to clear.');
+                return;
+            }
+
+            if (!confirm(`Are you sure you want to delete all ${count} subscribers? This action cannot be undone.`)) {
+                return;
+            }
+
+            localStorage.setItem('campusTalesSubscribers', JSON.stringify([]));
+            loadSubscribers();
+            updateStats();
+            alert('All subscribers have been cleared.');
+        });
+
+        // Download CSV
+        downloadBtn.addEventListener('click', () => {
+            const subscribers = getSubscribers();
+            
+            if (subscribers.length === 0) {
+                alert('No subscribers to download.');
+                return;
+            }
+
+            // Create CSV content
+            let csvContent = 'Email Address,Subscribed Date\n';
+            subscribers.forEach(email => {
+                csvContent += `${email},${new Date().toISOString().split('T')[0]}\n`;
+            });
+
+            // Create download link
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            
+            link.setAttribute('href', url);
+            link.setAttribute('download', `campus-tales-subscribers-${Date.now()}.csv`);
+            link.style.visibility = 'hidden';
+            
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        });
+
+        // Search Handler
+        searchBox.addEventListener('input', (e) => {
+            loadSubscribers(e.target.value);
+        });
+
+        // Update Stats
+        function updateStats() {
+            const subscribers = getSubscribers();
+            totalSubscribersEl.textContent = subscribers.length;
+            lastUpdatedEl.textContent = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', 
+                minute: '2-digit' 
+            });
+        }
+
+        // Auto-refresh stats every 30 seconds
+        setInterval(() => {
+            if (isAuthenticated) {
+                updateStats();
+                loadSubscribers(searchBox.value);
+            }
+        }, 30000);
+    </script>
 </body>
 </html>

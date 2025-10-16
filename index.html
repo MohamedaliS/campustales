@@ -3,63 +3,929 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Campus Tales - College Life Comic Strips</title>
-    <meta name="description" content="A minimalist black & white comic strip series celebrating college life. New episodes released monthly.">
-    <link rel="stylesheet" href="styles.css">
+    <title>Campus Tales | College Comics</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #ef4444;
+            --dark: #1a1a1a;
+            --light: #f8f9fa;
+            --border: #e5e7eb;
+            --text: #2d3748;
+            --text-muted: #718096;
+            --white: #ffffff;
+            --success: #10b981;
+            --error: #ef4444;
+            --radius: 12px;
+            --shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.05);
+        }
+
+        html, body {
+            height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', sans-serif;
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        /* Smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        header {
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            backdrop-filter: blur(8px);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            color: var(--dark);
+            flex-shrink: 0;
+        }
+
+        .logo-icon {
+            width: 2.5rem;
+            height: 2.5rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #dc2626 100%);
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-weight: 700;
+            font-size: 1.2rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: -0.25rem;
+        }
+
+        nav {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            position: relative;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        nav a:hover::after {
+            width: 100%;
+        }
+
+        /* Main Content */
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--dark) 0%, #374151 100%);
+            color: var(--white);
+            padding: 3rem 1rem;
+            text-align: center;
+        }
+
+        .hero-content {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .hero h2 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.95rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            min-height: 44px;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .btn-primary:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-secondary {
+            background: var(--white);
+            color: var(--dark);
+            border: 2px solid var(--dark);
+        }
+
+        .btn-secondary:hover {
+            background: var(--dark);
+            color: var(--white);
+        }
+
+        /* Comic Section */
+        .comic-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
+            width: 100%;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .comic-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .comic-viewer {
+            background: var(--light);
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .comic-header {
+            background: var(--white);
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .comic-info h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .comic-date {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .comic-strip-container {
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 9/16;
+            background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Optimize for smartphone screens */
+        @media (max-width: 768px) {
+            .comic-strip-container {
+                max-width: 100%;
+            }
+        }
+
+        .comic-display img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .comic-display-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: var(--text-muted);
+            font-size: 3rem;
+        }
+
+        .comic-controls {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1.5rem;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            justify-content: space-between;
+        }
+
+        .nav-btn {
+            flex: 1;
+            padding: 0.75rem;
+            background: var(--light);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .nav-btn:hover:not(:disabled) {
+            background: var(--dark);
+            color: var(--white);
+            border-color: var(--dark);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        /* Progress Dots */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+
+        .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .dot.active {
+            background: var(--primary);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        /* Email Form */
+        .email-form {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .email-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            transition: all 0.3s;
+            min-height: 44px;
+        }
+
+        .email-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.1);
+        }
+
+        .subscribe-btn {
+            padding: 0.75rem 1.5rem;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            min-height: 44px;
+            white-space: nowrap;
+        }
+
+        .subscribe-btn:hover {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .form-message {
+            padding: 0.75rem 1rem;
+            border-radius: var(--radius);
+            font-size: 0.9rem;
+            display: none;
+            margin-top: 0.75rem;
+            animation: slideIn 0.3s ease;
+        }
+
+        .form-message.show {
+            display: block;
+        }
+
+        .form-message.success {
+            background: #d1fae5;
+            color: #065f46;
+            border: 1px solid #a7f3d0;
+        }
+
+        .form-message.error {
+            background: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fecaca;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Social Links */
+        .social-links {
+            display: flex;
+            gap: 0.75rem;
+            justify-content: flex-start;
+            flex-wrap: wrap;
+        }
+
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all 0.3s;
+            background: var(--white);
+        }
+
+        .social-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        /* Archive Section */
+        .archive-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .archive-item {
+            border-radius: var(--radius);
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--border);
+        }
+
+        .archive-item:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow);
+        }
+
+        .archive-thumb {
+            aspect-ratio: 9/16;
+            background: var(--light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .archive-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 2rem 1rem;
+            margin-top: auto;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .footer-content p {
+            opacity: 0.8;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--white);
+            text-decoration: none;
+            opacity: 0.8;
+            transition: opacity 0.3s;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-wrap: wrap;
+            }
+
+            nav {
+                order: 3;
+                width: 100%;
+                gap: 1rem;
+                margin-top: 1rem;
+            }
+
+            .hero h2 {
+                font-size: 1.8rem;
+            }
+
+            .comic-container {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .comic-section {
+                padding: 1.5rem 1rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+
+            .sidebar {
+                gap: 1rem;
+            }
+
+            .card {
+                padding: 1rem;
+            }
+
+            .archive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+                gap: 0.75rem;
+            }
+
+            .footer-links {
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header-content {
+                padding: 0.75rem;
+            }
+
+            .logo-text h1 {
+                font-size: 1.25rem;
+            }
+
+            nav {
+                gap: 0.75rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+
+            .hero {
+                padding: 2rem 1rem;
+            }
+
+            .hero h2 {
+                font-size: 1.5rem;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .comic-display {
+                aspect-ratio: 3/4;
+            }
+
+            .email-form {
+                flex-direction: column;
+            }
+
+            .email-input, .subscribe-btn {
+                width: 100%;
+            }
+
+            .archive-grid {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Header -->
     <header>
-        <div class="container">
-            <h1>Campus Tales</h1>
-            <p class="tagline">Celebrating College Life, One Comic at a Time</p>
+        <div class="header-content">
+            <a href="#" class="logo-group">
+                <div class="logo-icon">CT</div>
+                <div class="logo-text">
+                    <h1>Campus Tales</h1>
+                    <p>College Comics</p>
+                </div>
+            </a>
+            <nav>
+                <a href="#comics">Comics</a>
+                <a href="#archive">Archive</a>
+                <a href="#subscribe">Subscribe</a>
+                <a href="admin.html" target="_blank">Admin</a>
+            </nav>
         </div>
     </header>
 
-    <main>
+    <!-- Hero -->
+    <section class="hero">
         <div class="container">
-            <section class="hero">
-                <h2>Coming Soon</h2>
-                <p>New episodes released monthly. Subscribe to never miss an update!</p>
-            </section>
-
-            <section class="comics" id="comics">
-                <p class="empty-state">First comic strip coming soon...</p>
-            </section>
+            <h1>Daily comics about office life</h1>
+            <p>Follow Dave's adventures through coffee disasters, awkward meetings, and the occasional existential crisis.</p>
         </div>
-    </main>
+    </section>
 
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <h3>Campus Tales</h3>
-                    <p>A minimalist comic strip series about college life.</p>
-                </div>
-                
-                <div class="footer-section subscribe-section">
-                    <h3>Subscribe for Updates</h3>
-                    <p>Get notified when new episodes are released</p>
-                    <form id="subscribeForm" class="subscribe-form">
-                        <input 
-                            type="email" 
-                            id="emailInput" 
-                            placeholder="your.email@example.com" 
-                            required 
-                            aria-label="Email address"
-                        >
-                        <button type="submit">Subscribe</button>
-                    </form>
-                    <div id="subscribeMessage" class="message" role="alert" aria-live="polite"></div>
+    <!-- Comic Reader -->
+    <div class="container">
+        <div class="comic-reader">
+            <div class="comic-header">
+                <h2 class="comic-title">The Monday Blues</h2>
+                <div class="comic-date">May 15, 2023</div>
+            </div>
+            <div class="comic-content">
+                <div class="comic-strip-container">
+                    <img src="https://placehold.co/300x533/f8f8f8/0a0a0a?text=Comic+Strip+1%0A%0A[LOGO]%0A%0ASketchbook" alt="The Monday Blues" class="comic-strip">
+    <main>
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Real College. Relatable Humor.</h2>
+                <p>Daily comics about campus life - where every student sees themselves</p>
+                <div class="cta-buttons">
+                    <button class="btn btn-primary" onclick="document.getElementById('comics').scrollIntoView()">
+                        <i class="fas fa-play"></i> Read Latest
+                    </button>
+                    <button class="btn btn-secondary" onclick="document.getElementById('archive').scrollIntoView()">
+                        <i class="fas fa-list"></i> View Archive
+                    </button>
                 </div>
             </div>
+        </section>
+
+        <!-- Comic Section -->
+        <section class="comic-section" id="comics">
+            <h2 class="section-title">Latest Episode</h2>
             
-            <div class="footer-bottom">
-                <p>&copy; 2025 Campus Tales. All rights reserved.</p>
-                <a href="admin.html" class="admin-link">Admin</a>
+            <div class="comic-container">
+                <!-- Comic Viewer -->
+                <div>
+                    <div class="comic-viewer">
+                        <div class="comic-header">
+                            <div class="comic-info">
+                                <h3 id="comicTitle">Monday Blues</h3>
+                                <div class="comic-date" id="comicDate">Today</div>
+                            </div>
+                        </div>
+                        <div class="comic-display">
+                            <div class="comic-display-placeholder">
+                                <i class="fas fa-image"></i>
+                            </div>
+                        </div>
+                        <div class="comic-controls">
+                            <button class="nav-btn" id="prevBtn" disabled>
+                                <i class="fas fa-chevron-left"></i> Previous
+                            </button>
+                            <button class="nav-btn" id="nextBtn">
+                                Next <i class="fas fa-chevron-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Progress Dots -->
+                    <div class="progress-dots" id="progressDots"></div>
+                </div>
+
+                <!-- Sidebar -->
+                <div class="sidebar">
+                    <!-- Subscribe Card -->
+                    <div class="card" id="subscribe">
+                        <h3><i class="fas fa-envelope"></i> Get Updates</h3>
+                        <p>Subscribe to get notified when new episodes drop</p>
+                        <form id="subscriptionForm" class="email-form">
+                            <input 
+                                type="email" 
+                                class="email-input" 
+                                placeholder="your@email.com"
+                                required
+                            >
+                            <button type="submit" class="subscribe-btn">Subscribe</button>
+                        </form>
+                        <div class="form-message" id="formMessage"></div>
+                    </div>
+
+                    <!-- About Card -->
+                    <div class="card">
+                        <h3><i class="fas fa-info-circle"></i> About</h3>
+                        <p>Campus Tales captures the essence of college life through relatable humor and authentic storytelling. Join thousands of students laughing at their own experiences.</p>
+                        <div class="social-links">
+                            <a href="#" class="social-btn" title="Twitter"><i class="fab fa-twitter"></i></a>
+                            <a href="#" class="social-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                            <a href="#" class="social-btn" title="Facebook"><i class="fab fa-facebook"></i></a>
+                            <a href="#" class="social-btn" title="RSS"><i class="fas fa-rss"></i></a>
+                        </div>
+                    </div>
+
+                    <!-- Stats Card -->
+                    <div class="card">
+                        <h3><i class="fas fa-chart-line"></i> Stats</h3>
+                        <p><strong>Episodes:</strong> <span id="totalComics">5</span></p>
+                        <p><strong>Subscribers:</strong> <span id="subscriberCount">0</span></p>
+                        <p style="margin-bottom: 0;"><strong>Active Fans:</strong> Growing!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Archive Section -->
+        <section class="comic-section" id="archive">
+            <h2 class="section-title">Episode Archive</h2>
+            <div class="archive-grid" id="archiveGrid"></div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Campus Tales - College Comics | All Rights Reserved</p>
+            <div class="footer-links">
+                <a href="admin.html">Admin Panel</a>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Contact</a>
+                <a href="#">About</a>
             </div>
         </div>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        // Comic Data
+        const comics = [
+            { title: "Monday Blues", date: "Oct 13, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+1" },
+            { title: "Coffee Emergency", date: "Oct 12, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+2" },
+            { title: "Group Project Chaos", date: "Oct 11, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+3" },
+            { title: "Exam Week Survival", date: "Oct 10, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+4" },
+            { title: "Dining Hall Tales", date: "Oct 9, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+5" }
+        ];
+
+        let currentIndex = 0;
+
+        // Initialize
+        function init() {
+            renderArchive();
+            updateComic();
+            renderProgressDots();
+            updateStats();
+            setupEventListeners();
+        }
+
+        function setupEventListeners() {
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentIndex > 0) {
+                    currentIndex--;
+                    updateComic();
+                }
+            });
+
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentIndex < comics.length - 1) {
+                    currentIndex++;
+                    updateComic();
+                }
+            });
+
+            document.getElementById('subscriptionForm').addEventListener('submit', handleSubscribe);
+        }
+
+        function updateComic() {
+            const comic = comics[currentIndex];
+            document.getElementById('comicTitle').textContent = comic.title;
+            document.getElementById('comicDate').textContent = comic.date;
+
+            const display = document.querySelector('.comic-display');
+            display.innerHTML = `<img src="${comic.image}" alt="${comic.title}">`;
+
+            document.getElementById('prevBtn').disabled = currentIndex === 0;
+            document.getElementById('nextBtn').disabled = currentIndex === comics.length - 1;
+
+            updateProgressDots();
+        }
+
+        function renderProgressDots() {
+            const container = document.getElementById('progressDots');
+            container.innerHTML = comics.map((_, i) => 
+                `<div class="dot ${i === currentIndex ? 'active' : ''}" onclick="currentIndex=${i}; updateComic()"></div>`
+            ).join('');
+        }
+
+        function updateProgressDots() {
+            document.querySelectorAll('.dot').forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function renderArchive() {
+            const grid = document.getElementById('archiveGrid');
+            grid.innerHTML = comics.map((comic, i) => `
+                <div class="archive-item" onclick="currentIndex=${i}; updateComic(); document.getElementById('comics').scrollIntoView({behavior:'smooth'})">
+                    <div class="archive-thumb">
+                        <img src="${comic.image}" alt="${comic.title}">
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function handleSubscribe(e) {
+            e.preventDefault();
+            const email = e.target.querySelector('.email-input').value.trim().toLowerCase();
+            const messageEl = document.getElementById('formMessage');
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                showMessage('Please enter a valid email address', 'error');
+                return;
+            }
+
+            let subscribers = JSON.parse(localStorage.getItem('campusTalesSubscribers') || '[]');
+            if (subscribers.includes(email)) {
+                showMessage('This email is already subscribed!', 'error');
+                return;
+            }
+
+            subscribers.push(email);
+            localStorage.setItem('campusTalesSubscribers', JSON.stringify(subscribers));
+            showMessage('✓ Successfully subscribed! Welcome aboard!', 'success');
+            e.target.reset();
+            updateStats();
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('formMessage');
+            msg.textContent = text;
+            msg.className = `form-message show ${type}`;
+            setTimeout(() => msg.classList.remove('show'), 4000);
+        }
+
+        function updateStats() {
+            const subscribers = JSON.parse(localStorage.getItem('campusTalesSubscribers') || '[]');
+            document.getElementById('subscriberCount').textContent = subscribers.length;
+            document.getElementById('totalComics').textContent = comics.length;
+        }
+
+        init();
+    </script>
 </body>
 </html>
