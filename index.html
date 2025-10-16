@@ -259,7 +259,9 @@
             font-size: 0.9rem;
         }
 
-        .comic-display {
+        .comic-strip-container {
+            width: 100%;
+            max-width: 500px;
             aspect-ratio: 9/16;
             background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
             display: flex;
@@ -267,6 +269,13 @@
             justify-content: center;
             overflow: hidden;
             position: relative;
+        }
+        
+        /* Optimize for smartphone screens */
+        @media (max-width: 768px) {
+            .comic-strip-container {
+                max-width: 100%;
+            }
         }
 
         .comic-display img {
@@ -673,6 +682,24 @@
         </div>
     </header>
 
+    <!-- Hero -->
+    <section class="hero">
+        <div class="container">
+            <h1>Daily comics about office life</h1>
+            <p>Follow Dave's adventures through coffee disasters, awkward meetings, and the occasional existential crisis.</p>
+        </div>
+    </section>
+
+    <!-- Comic Reader -->
+    <div class="container">
+        <div class="comic-reader">
+            <div class="comic-header">
+                <h2 class="comic-title">The Monday Blues</h2>
+                <div class="comic-date">May 15, 2023</div>
+            </div>
+            <div class="comic-content">
+                <div class="comic-strip-container">
+                    <img src="https://placehold.co/300x533/f8f8f8/0a0a0a?text=Comic+Strip+1%0A%0A[LOGO]%0A%0ASketchbook" alt="The Monday Blues" class="comic-strip">
     <main>
         <!-- Hero -->
         <section class="hero">
