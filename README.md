@@ -80,9 +80,24 @@ A minimalist black & white comic strip series celebrating college life. New epis
 campustales/
 ├── index.html          # Main website
 ├── admin.html          # Admin panel (password: admin123)
+├── styles.css          # Site styling
+├── script.js           # Subscription form logic
+├── admin.js            # Admin dashboard logic
 ├── emails.json         # Subscriber data structure
+├── images/             # UI assets (logos, presentation image)
+├── assets/             # Production assets (characters, backgrounds, props, panels, lettering)
+├── episodes/           # Working episode folders created by the workflow script
+├── exports/            # Final outputs the site references (web + social variants; placeholder.svg lives in exports/web/ until real strips are exported)
+├── data/               # Optional JSON data (e.g., comics.json)
+├── scripts/            # Utility scripts (e.g., new_episode.sh)
 └── README.md           # Documentation
 ```
+
+### Linux drawing workflow
+1. Create a new episode workspace: `./scripts/new_episode.sh 001 first_day` → generates `episodes/ep001_first_day/` with script, thumbnails, and layout checklist.
+2. Draw and iterate inside `episodes/epNNN_slug/` (scripts, thumbnails, layered files).
+3. Export the final PNG strip to `exports/web/epNNN_slug_strip.png` so the site can reference it directly.
+4. Add or update the comics metadata in `index.html` (or in `data/comics.json` for a future JSON-driven approach).
 
 ## How to Use
 

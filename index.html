@@ -45,6 +45,29 @@
             flex-direction: column;
         }
 
+        /* Skip Link */
+        .skip-link {
+            position: absolute;
+            left: -999px;
+            top: auto;
+            width: 1px;
+            height: 1px;
+            overflow: hidden;
+        }
+
+        .skip-link:focus-visible {
+            left: 1rem;
+            top: 1rem;
+            width: auto;
+            height: auto;
+            padding: 0.75rem 1rem;
+            background: var(--primary);
+            color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow-sm);
+            z-index: 60;
+        }
+
         /* Header */
         header {
             background: var(--white);
@@ -133,6 +156,12 @@
 
         nav a:hover::after {
             width: 100%;
+        }
+
+        nav a:focus-visible {
+            color: var(--primary);
+            outline: 2px solid var(--primary);
+            outline-offset: 3px;
         }
 
         /* Main Content */
@@ -328,6 +357,18 @@
             cursor: not-allowed;
         }
 
+        .nav-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
+        .comic-caption {
+            padding: 1rem 1.5rem;
+            background: var(--white);
+            border-top: 1px solid var(--border);
+            color: var(--text-muted);
+        }
+
         /* Progress Dots */
         .progress-dots {
             display: flex;
@@ -338,18 +379,25 @@
         }
 
         .dot {
-            width: 8px;
-            height: 8px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
             background: var(--border);
             cursor: pointer;
             transition: all 0.3s;
+            border: none;
+            padding: 0;
         }
 
         .dot.active {
             background: var(--primary);
-            width: 24px;
-            border-radius: 4px;
+            width: 28px;
+            border-radius: 6px;
+        }
+
+        .dot:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
         /* Sidebar */
@@ -486,6 +534,11 @@
             transform: translateY(-2px);
         }
 
+        .social-btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
         /* Archive Section */
         .archive-grid {
             display: grid;
@@ -501,11 +554,19 @@
             transition: all 0.3s;
             box-shadow: var(--shadow-sm);
             border: 1px solid var(--border);
+            background: var(--white);
+            text-align: left;
+            width: 100%;
         }
 
         .archive-item:hover {
             transform: translateY(-4px);
             box-shadow: var(--shadow);
+        }
+
+        .archive-item:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
         }
 
         .archive-thumb {
@@ -520,6 +581,23 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .archive-meta {
+            padding: 0.75rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        .archive-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .archive-date {
+            color: var(--text-muted);
+            font-size: 0.85rem;
         }
 
         /* Responsive Layouts */
@@ -746,6 +824,7 @@
     </style>
 </head>
 <body>
+    <a class="skip-link" href="#comics">Skip to main content</a>
     <!-- Header -->
     <header>
         <div class="header-content">
@@ -765,24 +844,6 @@
         </div>
     </header>
 
-    <!-- Hero -->
-    <section class="hero">
-        <div class="container">
-            <h1>Daily comics about office life</h1>
-            <p>Follow Dave's adventures through coffee disasters, awkward meetings, and the occasional existential crisis.</p>
-        </div>
-    </section>
-
-    <!-- Comic Reader -->
-    <div class="container">
-        <div class="comic-reader">
-            <div class="comic-header">
-                <h2 class="comic-title">The Monday Blues</h2>
-                <div class="comic-date">May 15, 2023</div>
-            </div>
-            <div class="comic-content">
-                <div class="comic-strip-container">
-                    <img src="https://placehold.co/300x533/f8f8f8/0a0a0a?text=Comic+Strip+1%0A%0A[LOGO]%0A%0ASketchbook" alt="The Monday Blues" class="comic-strip">
     <main>
         <!-- Hero -->
         <section class="hero">
@@ -819,6 +880,7 @@
                                 <i class="fas fa-image"></i>
                             </div>
                         </div>
+                        <div class="comic-caption" id="comicCaption" aria-live="polite"></div>
                         <div class="comic-controls">
                             <button class="nav-btn" id="prevBtn" disabled>
                                 <i class="fas fa-chevron-left"></i> Previous
@@ -896,12 +958,17 @@
 
     <script>
         // Comic Data
+        // Each comic image should live under exports/web/<file>.png so GitHub Pages can serve it directly.
+        // Future refactor idea: replace the inline array below with a fetch to data/comics.json, then
+        // render the returned data instead of hardcoding it. (Keep the current inline data in place so
+        // the site works without additional network requests.)
+        const placeholderImage = "exports/web/placeholder.svg";
         const comics = [
-            { title: "Monday Blues", date: "Oct 13, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+1" },
-            { title: "Coffee Emergency", date: "Oct 12, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+2" },
-            { title: "Group Project Chaos", date: "Oct 11, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+3" },
-            { title: "Exam Week Survival", date: "Oct 10, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+4" },
-            { title: "Dining Hall Tales", date: "Oct 9, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+5" }
+            { id: "ep001_first_day", title: "First Day", date: "January 10, 2026", image: placeholderImage, caption: "Orientation jitters and a missing map." },
+            { id: "ep002_coffee_emergency", title: "Coffee Emergency", date: "January 17, 2026", image: placeholderImage, caption: "Campus cafe runs out right before finals." },
+            { id: "ep003_group_project_chaos", title: "Group Project Chaos", date: "January 24, 2026", image: placeholderImage, caption: "Four schedules, one deadline." },
+            { id: "ep004_exam_week_survival", title: "Exam Week Survival", date: "January 31, 2026", image: placeholderImage, caption: "Power naps vs. flashcards." },
+            { id: "ep005_dining_hall_tales", title: "Dining Hall Tales", date: "February 7, 2026", image: placeholderImage, caption: "Mystery meat Monday returns." }
         ];
 
         let currentIndex = 0;
@@ -941,6 +1008,9 @@
             const display = document.querySelector('.comic-display');
             display.innerHTML = `<img src="${comic.image}" alt="${comic.title}">`;
 
+            const caption = document.getElementById('comicCaption');
+            caption.textContent = comic.caption || '';
+
             document.getElementById('prevBtn').disabled = currentIndex === 0;
             document.getElementById('nextBtn').disabled = currentIndex === comics.length - 1;
 
@@ -949,9 +1019,18 @@
 
         function renderProgressDots() {
             const container = document.getElementById('progressDots');
-            container.innerHTML = comics.map((_, i) => 
-                `<div class="dot ${i === currentIndex ? 'active' : ''}" onclick="currentIndex=${i}; updateComic()"></div>`
-            ).join('');
+            container.innerHTML = '';
+            comics.forEach((comic, i) => {
+                const dot = document.createElement('button');
+                dot.type = 'button';
+                dot.className = `dot ${i === currentIndex ? 'active' : ''}`;
+                dot.setAttribute('aria-label', `Go to ${comic.title}`);
+                dot.addEventListener('click', () => {
+                    currentIndex = i;
+                    updateComic();
+                });
+                container.appendChild(dot);
+            });
         }
 
         function updateProgressDots() {
@@ -963,12 +1042,25 @@
         function renderArchive() {
             const grid = document.getElementById('archiveGrid');
             grid.innerHTML = comics.map((comic, i) => `
-                <div class="archive-item" onclick="currentIndex=${i}; updateComic(); document.getElementById('comics').scrollIntoView({behavior:'smooth'})">
+                <button class="archive-item" type="button" data-index="${i}" aria-label="Open ${comic.title}">
                     <div class="archive-thumb">
                         <img src="${comic.image}" alt="${comic.title}">
                     </div>
-                </div>
+                    <div class="archive-meta">
+                        <div class="archive-title">${comic.title}</div>
+                        <div class="archive-date">${comic.date}</div>
+                    </div>
+                </button>
             `).join('');
+
+            grid.querySelectorAll('.archive-item').forEach((item) => {
+                item.addEventListener('click', () => {
+                    const index = Number(item.dataset.index);
+                    currentIndex = index;
+                    updateComic();
+                    document.getElementById('comics').scrollIntoView({ behavior: 'smooth' });
+                });
+            });
         }
 
         function handleSubscribe(e) {

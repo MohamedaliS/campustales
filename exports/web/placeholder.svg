@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 300" role="img" aria-labelledby="title desc">
+  <title>Campus Tales comic placeholder</title>
+  <desc>Placeholder graphic indicating where exported comic strips should be placed.</desc>
+  <rect width="600" height="300" fill="#f4f4f4" stroke="#cccccc" stroke-width="4" />
+  <path d="M40 220 L140 120 L230 220 Z" fill="#d1e8ff" stroke="#5e9bff" stroke-width="4" />
+  <path d="M200 200 L260 140 L340 220 Z" fill="#ffe9d1" stroke="#ffb35e" stroke-width="4" />
+  <circle cx="440" cy="120" r="50" fill="#ffe4e8" stroke="#ff6b81" stroke-width="6" />
+  <text x="300" y="160" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="28" fill="#333">
+    exports/web
+  </text>
+  <text x="300" y="195" text-anchor="middle" font-family="'Segoe UI', Arial, sans-serif" font-size="20" fill="#555">
+    Add your exported strip PNGs here
+  </text>
+</svg>
