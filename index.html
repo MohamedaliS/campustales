@@ -896,12 +896,17 @@
 
     <script>
         // Comic Data
+        // Each comic image should live under exports/web/<file>.png so GitHub Pages can serve it directly.
+        // Future refactor idea: replace the inline array below with a fetch to data/comics.json, then
+        // render the returned data instead of hardcoding it. (Keep the current inline data in place so
+        // the site works without additional network requests.)
+        const placeholderImage = "exports/web/placeholder.svg";
         const comics = [
-            { title: "Monday Blues", date: "Oct 13, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+1" },
-            { title: "Coffee Emergency", date: "Oct 12, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+2" },
-            { title: "Group Project Chaos", date: "Oct 11, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+3" },
-            { title: "Exam Week Survival", date: "Oct 10, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+4" },
-            { title: "Dining Hall Tales", date: "Oct 9, 2025", image: "https://placehold.co/300x533/1a1a1a/ef4444?text=Comic+5" }
+            { id: "ep001_first_day", title: "First Day", date: "January 10, 2026", image: placeholderImage, caption: "Orientation jitters and a missing map." },
+            { id: "ep002_coffee_emergency", title: "Coffee Emergency", date: "January 17, 2026", image: placeholderImage, caption: "Campus cafe runs out right before finals." },
+            { id: "ep003_group_project_chaos", title: "Group Project Chaos", date: "January 24, 2026", image: placeholderImage, caption: "Four schedules, one deadline." },
+            { id: "ep004_exam_week_survival", title: "Exam Week Survival", date: "January 31, 2026", image: placeholderImage, caption: "Power naps vs. flashcards." },
+            { id: "ep005_dining_hall_tales", title: "Dining Hall Tales", date: "February 7, 2026", image: placeholderImage, caption: "Mystery meat Monday returns." }
         ];
 
         let currentIndex = 0;
